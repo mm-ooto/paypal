@@ -308,7 +308,7 @@ func (r *ReqGetListWebhooks) GetQueryParameters() string {
 type ReqCreateWebhook struct {
 	Id        string             `json:"id,omitempty"`
 	Url       string             `json:"url"`
-	EventType []*EventType       `json:"event_type"`
+	EventTypes []*EventType       `json:"event_types"`
 	Links     []*LinkDescription `json:"links,omitempty"`
 }
 
@@ -321,8 +321,8 @@ type ReqDeleteWebhook struct {
 // ReqUpdateWebhook
 // https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_update
 type ReqUpdateWebhook struct {
-	WebhookId    string  `json:"-"`
-	PatchRequest []Patch `json:"patch_request,omitempty"`
+	WebhookId    string   `json:"-"`
+	PatchRequest []*Patch `json:"patch_request,omitempty"`
 }
 
 // ReqGetWebhookDetails

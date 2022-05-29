@@ -1,7 +1,8 @@
 package paypal
 
 /*
-	付款
+*	付款
+*	https://developer.paypal.com/docs/api/payments/v2/#authorizations
 */
 import (
 	"fmt"

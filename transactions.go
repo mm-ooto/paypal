@@ -7,7 +7,8 @@ import (
 )
 
 /*
-	交易查询
+*	交易查询
+*	https://developer.paypal.com/docs/api/transaction-search/v1/#transactions
 */
 
 // GetTransactionsList 根据条件获取交易列表
