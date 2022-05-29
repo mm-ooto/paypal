@@ -11,7 +11,7 @@ import (
 *	https://developer.paypal.com/docs/api/transaction-search/v1/#transactions
 */
 
-// GetTransactionsList 根据条件获取交易列表
+// GetTransactionsList 获取交易列表
 func (p *PClient) GetTransactionsList(req *model.ReqGetTransactionsList) (res model.ResGetTransactionsList, err error) {
 	api := fmt.Sprintf("%s?%s", consts.ListTransactionsAPI, req.GetQueryParameters())
 	if err = p.CallApiRequest(consts.HttpMethodGet, api, nil, &res); err != nil {
@@ -20,7 +20,7 @@ func (p *PClient) GetTransactionsList(req *model.ReqGetTransactionsList) (res mo
 	return
 }
 
-// GetListAllBalances 根据条件获取所有余额
+// GetListAllBalances 获取所有余额
 func (p *PClient) GetListAllBalances(req *model.ReqGetListAllBalances) (res model.ResGetListAllBalances, err error) {
 	api := fmt.Sprintf("%s?%s", consts.ListAllBalancesAPI, req.GetQueryParameters())
 	if err = p.CallApiRequest(consts.HttpMethodGet, api, nil, &res); err != nil {
