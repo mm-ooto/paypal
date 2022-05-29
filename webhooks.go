@@ -10,7 +10,8 @@ import (
 )
 
 /*
-	网络钩子
+*	网络钩子
+*    https://developer.paypal.com/docs/api/webhooks/v1/#webhooks
 */
 
 // GetListWebhooks 列出应用程序的webhooks
@@ -24,7 +25,7 @@ func (p *PClient) GetListWebhooks(req *model.ReqGetListWebhooks) (res model.ResG
 
 // CreateWebhook 创建webhook
 func (p *PClient) CreateWebhook(req *model.ReqCreateWebhook) (res model.ResCreateWebhook, err error) {
-	if err = p.CallApiRequest(consts.HttpMethodGet, consts.WebhooksAPI, req, &res); err != nil {
+	if err = p.CallApiRequest(consts.HttpMethodPost, consts.WebhooksAPI, req, &res); err != nil {
 		return
 	}
 	return
@@ -40,9 +41,9 @@ func (p *PClient) DeleteWebhook(req *model.ReqDeleteWebhook) (err error) {
 }
 
 // UpdateWebhook 更新指定的webhook
-func (p *PClient) UpdateWebhook(req *model.ReqDeleteWebhook) (res model.ResUpdateWebhook, err error) {
+func (p *PClient) UpdateWebhook(req *model.ReqUpdateWebhook) (res model.ResUpdateWebhook, err error) {
 	api := fmt.Sprintf("%s/%s", consts.WebhooksAPI, req.WebhookId)
-	if err = p.CallApiRequest(consts.HttpMethodPatch, api, nil, &res); err != nil {
+	if err = p.CallApiRequest(consts.HttpMethodPatch, api, req, &res); err != nil {
 		return
 	}
 	return

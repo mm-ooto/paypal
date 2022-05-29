@@ -124,7 +124,7 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 	if err != nil {
 		return err
 	}
-	fmt.Println("statusCode=", res.StatusCode)
+	//fmt.Println("statusCode=", res.StatusCode)
 	// 请求成功
 	switch res.StatusCode {
 	case http.StatusOK, http.StatusCreated:
@@ -134,7 +134,7 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 			}
 		}
 	case http.StatusNoContent:
-		fallthrough
+		return nil
 	case http.StatusUnauthorized:
 		var resValidationError = &ValidationError{
 			RequestUrl: res.Request.URL.String(),

@@ -7,7 +7,8 @@ import (
 )
 
 /*
-	支付
+*	支付
+*	https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts
 */
 
 // CreateBatchPayout 批量支付创建

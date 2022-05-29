@@ -12,16 +12,16 @@ type ResAccessToken struct {
 
 // ResOrderBase ResOrderBase
 type ResOrderBase struct {
-	Id                    string                `json:"id,omitempty"`
-	PaymentSource         PaymentSourceResponse `json:"payment_source,omitempty"`
-	Intent                string                `json:"intent,omitempty"`
-	ProcessingInstruction string                `json:"processing_instruction,omitempty"`
-	Payer                 Payer                 `json:"payer,omitempty"`
-	PurchaseUnits         []PurchaseUnit        `json:"purchase_units,omitempty"`
-	Status                string                `json:"status,omitempty"`
-	Links                 []LinkDescription     `json:"links"`
-	CreateTime            string                `json:"create_time,omitempty"`
-	UpdateTime            string                `json:"update_time,omitempty"`
+	Id                    string                 `json:"id,omitempty"`
+	PaymentSource         *PaymentSourceResponse `json:"payment_source,omitempty"`
+	Intent                string                 `json:"intent,omitempty"`
+	ProcessingInstruction string                 `json:"processing_instruction,omitempty"`
+	Payer                 *Payer                 `json:"payer,omitempty"`
+	PurchaseUnits         []*PurchaseUnit        `json:"purchase_units,omitempty"`
+	Status                string                 `json:"status,omitempty"`
+	Links                 []*LinkDescription     `json:"links"`
+	CreateTime            string                 `json:"create_time,omitempty"`
+	UpdateTime            string                 `json:"update_time,omitempty"`
 }
 
 // ResCreateOrder
@@ -57,108 +57,108 @@ type ResConfirmOrder struct {
 // ResGetAuthorizedPaymentDetails
 // https://developer.paypal.com/docs/api/payments/v2/#authorizations_get-response
 type ResGetAuthorizedPaymentDetails struct {
-	Status           string                     `json:"status,omitempty"`
-	StatusDetails    AuthorizationStatusDetails `json:"status_details,omitempty"`
-	Id               string                     `json:"id,omitempty"`
-	Amount           Money                      `json:"amount,omitempty"`
-	InvoiceId        string                     `json:"invoice_id,omitempty"`
-	CustomId         string                     `json:"custom_id,omitempty"`
-	SellerProtection SellerProtection           `json:"seller_protection,omitempty"`
-	ExpirationTime   string                     `json:"expiration_time,omitempty"`
-	Links            []LinkDescription          `json:"links,omitempty"`
-	CreateTime       string                     `json:"create_time,omitempty"`
-	UpdateTime       string                     `json:"update_time,omitempty"`
+	Status           string                      `json:"status,omitempty"`
+	StatusDetails    *AuthorizationStatusDetails `json:"status_details,omitempty"`
+	Id               string                      `json:"id,omitempty"`
+	Amount           *Money                      `json:"amount,omitempty"`
+	InvoiceId        string                      `json:"invoice_id,omitempty"`
+	CustomId         string                      `json:"custom_id,omitempty"`
+	SellerProtection *SellerProtection           `json:"seller_protection,omitempty"`
+	ExpirationTime   string                      `json:"expiration_time,omitempty"`
+	Links            []*LinkDescription          `json:"links,omitempty"`
+	CreateTime       string                      `json:"create_time,omitempty"`
+	UpdateTime       string                      `json:"update_time,omitempty"`
 }
 
 // ResCaptureAuthorizedPayment
 // https://developer.paypal.com/docs/api/payments/v2/#authorizations_capture-response
 type ResCaptureAuthorizedPayment struct {
-	Status                    string                     `json:"status,omitempty"`
-	StatusDetails             AuthorizationStatusDetails `json:"status_details,omitempty"`
-	Id                        string                     `json:"id,omitempty"`
-	Amount                    Money                      `json:"amount,omitempty"`
-	InvoiceId                 string                     `json:"invoice_id,omitempty"`
-	CustomId                  string                     `json:"custom_id,omitempty"`
-	SellerProtection          SellerProtection           `json:"seller_protection,omitempty"`
-	FinalCapture              bool                       `json:"final_capture,omitempty"`
-	SellerReceivableBreakdown SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
-	DisbursementMode          string                     `json:"disbursement_mode,omitempty"`
-	Links                     []LinkDescription          `json:"links,omitempty"`
-	ProcessorResponse         ProcessorResponse          `json:"processor_response,omitempty"`
-	CreateTime                string                     `json:"create_time,omitempty"`
-	UpdateTime                string                     `json:"update_time,omitempty"`
+	Status                    string                      `json:"status,omitempty"`
+	StatusDetails             *AuthorizationStatusDetails `json:"status_details,omitempty"`
+	Id                        string                      `json:"id,omitempty"`
+	Amount                    *Money                      `json:"amount,omitempty"`
+	InvoiceId                 string                      `json:"invoice_id,omitempty"`
+	CustomId                  string                      `json:"custom_id,omitempty"`
+	SellerProtection          *SellerProtection           `json:"seller_protection,omitempty"`
+	FinalCapture              bool                        `json:"final_capture,omitempty"`
+	SellerReceivableBreakdown *SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
+	DisbursementMode          string                      `json:"disbursement_mode,omitempty"`
+	Links                     []*LinkDescription          `json:"links,omitempty"`
+	ProcessorResponse         *ProcessorResponse          `json:"processor_response,omitempty"`
+	CreateTime                string                      `json:"create_time,omitempty"`
+	UpdateTime                string                      `json:"update_time,omitempty"`
 }
 
 // ResReauthorizeAuthorizedPayment
 // https://developer.paypal.com/docs/api/payments/v2/#authorizations_reauthorize-response
 type ResReauthorizeAuthorizedPayment struct {
-	Status           string                     `json:"status,omitempty"`
-	StatusDetails    AuthorizationStatusDetails `json:"status_details,omitempty"`
-	Id               string                     `json:"id,omitempty"`
-	Amount           Money                      `json:"amount,omitempty"`
-	InvoiceId        string                     `json:"invoice_id,omitempty"`
-	CustomId         string                     `json:"custom_id,omitempty"`
-	SellerProtection SellerProtection           `json:"seller_protection,omitempty"`
-	ExpirationTime   string                     `json:"expiration_time,omitempty"`
-	Links            []LinkDescription          `json:"links,omitempty"`
-	CreateTime       string                     `json:"create_time,omitempty"`
-	UpdateTime       string                     `json:"update_time,omitempty"`
+	Status           string                      `json:"status,omitempty"`
+	StatusDetails    *AuthorizationStatusDetails `json:"status_details,omitempty"`
+	Id               string                      `json:"id,omitempty"`
+	Amount           *Money                      `json:"amount,omitempty"`
+	InvoiceId        string                      `json:"invoice_id,omitempty"`
+	CustomId         string                      `json:"custom_id,omitempty"`
+	SellerProtection *SellerProtection           `json:"seller_protection,omitempty"`
+	ExpirationTime   string                      `json:"expiration_time,omitempty"`
+	Links            []*LinkDescription          `json:"links,omitempty"`
+	CreateTime       string                      `json:"create_time,omitempty"`
+	UpdateTime       string                      `json:"update_time,omitempty"`
 }
 
 // ResGetCapturedPaymentDetails
 // https://developer.paypal.com/docs/api/payments/v2/#captures_get-response
 type ResGetCapturedPaymentDetails struct {
-	Status                    string                     `json:"status,omitempty"`
-	StatusDetails             AuthorizationStatusDetails `json:"status_details,omitempty"`
-	Id                        string                     `json:"id,omitempty"`
-	Amount                    Money                      `json:"amount,omitempty"`
-	InvoiceId                 string                     `json:"invoice_id,omitempty"`
-	CustomId                  string                     `json:"custom_id,omitempty"`
-	SellerProtection          SellerProtection           `json:"seller_protection,omitempty"`
-	FinalCapture              bool                       `json:"final_capture,omitempty"`
-	SellerReceivableBreakdown SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
-	DisbursementMode          string                     `json:"disbursement_mode,omitempty"`
-	Links                     []LinkDescription          `json:"links,omitempty"`
-	ProcessorResponse         ProcessorResponse          `json:"processor_response,omitempty"`
-	CreateTime                string                     `json:"create_time,omitempty"`
-	UpdateTime                string                     `json:"update_time,omitempty"`
+	Status                    string                      `json:"status,omitempty"`
+	StatusDetails             *AuthorizationStatusDetails `json:"status_details,omitempty"`
+	Id                        string                      `json:"id,omitempty"`
+	Amount                    *Money                      `json:"amount,omitempty"`
+	InvoiceId                 string                      `json:"invoice_id,omitempty"`
+	CustomId                  string                      `json:"custom_id,omitempty"`
+	SellerProtection          *SellerProtection           `json:"seller_protection,omitempty"`
+	FinalCapture              bool                        `json:"final_capture,omitempty"`
+	SellerReceivableBreakdown *SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
+	DisbursementMode          string                      `json:"disbursement_mode,omitempty"`
+	Links                     []*LinkDescription          `json:"links,omitempty"`
+	ProcessorResponse         *ProcessorResponse          `json:"processor_response,omitempty"`
+	CreateTime                string                      `json:"create_time,omitempty"`
+	UpdateTime                string                      `json:"update_time,omitempty"`
 }
 
 // ResRefundCapturedPayment
 // https://developer.paypal.com/docs/api/payments/v2/#captures_refund-response
 type ResRefundCapturedPayment struct {
-	Status                    string                     `json:"status,omitempty"`
-	StatusDetails             AuthorizationStatusDetails `json:"status_details,omitempty"`
-	Id                        string                     `json:"id,omitempty"`
-	Amount                    Money                      `json:"amount,omitempty"`
-	InvoiceId                 string                     `json:"invoice_id,omitempty"`
-	NoteToPayer               string                     `json:"note_to_payer,omitempty"`
-	SellerReceivableBreakdown SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
-	Links                     []LinkDescription          `json:"links,omitempty"`
-	CreateTime                string                     `json:"create_time,omitempty"`
-	UpdateTime                string                     `json:"update_time,omitempty"`
+	Status                    string                      `json:"status,omitempty"`
+	StatusDetails             *AuthorizationStatusDetails `json:"status_details,omitempty"`
+	Id                        string                      `json:"id,omitempty"`
+	Amount                    *Money                      `json:"amount,omitempty"`
+	InvoiceId                 string                      `json:"invoice_id,omitempty"`
+	NoteToPayer               string                      `json:"note_to_payer,omitempty"`
+	SellerReceivableBreakdown *SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
+	Links                     []*LinkDescription          `json:"links,omitempty"`
+	CreateTime                string                      `json:"create_time,omitempty"`
+	UpdateTime                string                      `json:"update_time,omitempty"`
 }
 
 // ResGetRefundDetails
 // https://developer.paypal.com/docs/api/payments/v2/#refunds_get-response
 type ResGetRefundDetails struct {
-	Status                    string                     `json:"status,omitempty"`
-	StatusDetails             AuthorizationStatusDetails `json:"status_details,omitempty"`
-	Id                        string                     `json:"id,omitempty"`
-	Amount                    Money                      `json:"amount,omitempty"`
-	InvoiceId                 string                     `json:"invoice_id,omitempty"`
-	NoteToPayer               string                     `json:"note_to_payer,omitempty"`
-	SellerReceivableBreakdown SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
-	Links                     []LinkDescription          `json:"links,omitempty"`
-	CreateTime                string                     `json:"create_time,omitempty"`
-	UpdateTime                string                     `json:"update_time,omitempty"`
+	Status                    string                      `json:"status,omitempty"`
+	StatusDetails             *AuthorizationStatusDetails `json:"status_details,omitempty"`
+	Id                        string                      `json:"id,omitempty"`
+	Amount                    *Money                      `json:"amount,omitempty"`
+	InvoiceId                 string                      `json:"invoice_id,omitempty"`
+	NoteToPayer               string                      `json:"note_to_payer,omitempty"`
+	SellerReceivableBreakdown *SellerReceivableBreakdown  `json:"seller_receivable_breakdown,omitempty"`
+	Links                     []*LinkDescription          `json:"links,omitempty"`
+	CreateTime                string                      `json:"create_time,omitempty"`
+	UpdateTime                string                      `json:"update_time,omitempty"`
 }
 
 // ResCreateBatchPayout
 // https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-post-request-body-response
 type ResCreateBatchPayout struct {
-	BatchHeader PayoutHeader      `json:"batch_header,omitempty"`
-	Links       []LinkDescription `json:"links,omitempty"`
+	BatchHeader *PayoutHeader      `json:"batch_header,omitempty"`
+	Links       []*LinkDescription `json:"links,omitempty"`
 }
 
 // ResGetPayoutBatchDetails
@@ -226,10 +226,10 @@ type ResGetListWebhooks struct {
 // ResCreateWebhook
 // https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_post-response
 type ResCreateWebhook struct {
-	Id        string             `json:"id,omitempty"`
-	Url       string             `json:"url"`
-	EventType []*EventType       `json:"event_type"`
-	Links     []*LinkDescription `json:"links,omitempty"`
+	Id         string             `json:"id,omitempty"`
+	Url        string             `json:"url"`
+	EventTypes []*EventType       `json:"event_types"`
+	Links      []*LinkDescription `json:"links,omitempty"`
 }
 
 // ResUpdateWebhook
@@ -247,7 +247,7 @@ type ResGetWebhookDetails struct {
 // ResGetListEventSubscriptionsForWebhook
 // https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_list-response
 type ResGetListEventSubscriptionsForWebhook struct {
-	EventType []*EventType `json:"event_type"`
+	EventTypes []*EventType `json:"event_types"`
 }
 
 // ResVerifyWebhookSignature
