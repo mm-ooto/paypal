@@ -13,14 +13,14 @@ import (
 )
 
 type PClient struct {
-	gateWayUrl           string // 网关地址
+	gateWayUrl string // 网关地址
 	//version              string // 版本号：v1/v2
 	clientId             string //
 	clientSecret         string //
 	isProduction         bool   // 是否是生产环境
 	client               *http.Client
-	accessToken          string // 访问令牌
-	accessTokenExpiresIn int64  // 访问令牌过期时间
+	accessToken          string    // 访问令牌
+	accessTokenExpiresAt time.Time // 访问令牌过期时间
 }
 
 type OptionFunc func(p *PClient)
@@ -89,14 +89,13 @@ func (p *PClient) GetAccessToken() error {
 		return err
 	}
 	p.accessToken = resAccessToken.AccessToken
-	p.accessTokenExpiresIn = resAccessToken.ExpiresIn
+	p.accessTokenExpiresAt = time.Now().Add(time.Duration(resAccessToken.ExpiresIn) * time.Second)
 	return nil
 }
 
 func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, apiResp interface{}) error {
-	// 获取访问令牌
-	if time.Now().Unix() > p.accessTokenExpiresIn {
-		// 重新获取访问令牌
+	if p.accessToken == "" || p.accessTokenExpiresAt.Before(time.Now()) {
+		// 过期重新获取访问令牌
 		err := p.GetAccessToken()
 		if err != nil {
 			panic(err)
@@ -113,8 +112,12 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 		return err
 	}
 
+	req.Header.Set("Accept-Language", "en_US")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", p.accessToken))
-	req.Header.Set("Content-Type", consts.ContentTypeJson)
+	if req.Header.Get("Content-Type") == "" {
+		req.Header.Set("Content-Type", consts.ContentTypeJson)
+	}
+
 	res, err := p.client.Do(req)
 	if err != nil {
 		return err
@@ -142,9 +145,8 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 		if err = json.Unmarshal(body, resValidationError); err != nil {
 			return err
 		}
-		bytes, _ := json.Marshal(resValidationError)
-		fmt.Println(string(bytes))
-
+		//bytes, _ := json.Marshal(resValidationError)
+		//fmt.Println(string(bytes))
 		return resValidationError
 	case http.StatusForbidden:
 		var requestForbiddenErr = &ForbiddenErr{
@@ -153,8 +155,8 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 		if err = json.Unmarshal(body, requestForbiddenErr); err != nil {
 			return err
 		}
-		bytes, _ := json.Marshal(requestForbiddenErr)
-		fmt.Println(string(bytes))
+		//bytes, _ := json.Marshal(requestForbiddenErr)
+		//fmt.Println(string(bytes))
 		return requestForbiddenErr
 	default:
 		var resRequestFailed = &ResponseError{
@@ -163,23 +165,10 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 		if err = json.Unmarshal(body, resRequestFailed); err != nil {
 			return err
 		}
-		bytes, _ := json.Marshal(resRequestFailed)
-		fmt.Println(string(bytes))
-
+		//bytes, _ := json.Marshal(resRequestFailed)
+		//fmt.Println(string(bytes))
 		return resRequestFailed
 	}
 
 	return nil
-}
-
-func setHeaderParameters(req *http.Request, otherHeaderParams *model.OtherDefaultHeaderParameters) {
-	if otherHeaderParams.PayPalRequestId != "" {
-		req.Header.Set("PayPal-Request-Id", otherHeaderParams.PayPalRequestId)
-	}
-	if otherHeaderParams.Prefer != "" {
-		req.Header.Set("Prefer", otherHeaderParams.Prefer)
-	}
-	if otherHeaderParams.PayPalAuthAssertion != "" {
-		req.Header.Set("PayPal-Auth-Assertion", otherHeaderParams.Prefer)
-	}
 }
