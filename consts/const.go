@@ -25,24 +25,24 @@ var (
 var (
 	/*
 	* ResourceType：与webhook通知事件相关的资源名
-	*/
+	 */
 	ResourceTypeDispute  = "dispute"  // 资源类型：纠纷
 	ResourceTypeRefund   = "refund"   // 资源类型：退款
 	ResourceTypeSale     = "sale"     // 资源类型：交易
 	ResourceTypeInvoices = "invoices" // 资源类型：发票
 	/*
 	*	EventType：触发webhook事件通知的事件类型
-	*/
-	EventTypeRiskDisputeCreate       = "risk.dispute.created"      // 事件类型：创建纠纷
-	EventTypeCustomerDisputeCreate   = "customer.dispute.created"  // 事件类型：顾客纠纷创建
-	EventTypeCustomerDisputeUpdated  = "customer.dispute.updated"  // 事件类型：顾客修改纠纷
-	EventTypeCustomerDisputeResolved = "customer.dispute.resolved" // 事件类型：顾客解决纠纷
+	 */
+	EventTypeRiskDisputeCreate       = "RISK.DISPUTE.CREATED"      // 事件类型：创建纠纷
+	EventTypeCustomerDisputeCreate   = "CUSTOMER.DISPUTE.CREATED"  // 事件类型：顾客纠纷创建
+	EventTypeCustomerDisputeUpdated  = "CUSTOMER.DISPUTE.UPDATED"  // 事件类型：顾客修改纠纷
+	EventTypeCustomerDisputeResolved = "CUSTOMER.DISPUTE.RESOLVED" // 事件类型：顾客解决纠纷
 
-	EventTypePaymentSaleRefund = "payment.sale.refund" // 事件类型：退款完成
+	EventTypePaymentSaleRefund = "PAYMENT.SALE.REFUND" // 事件类型：退款完成
 
-	EventTypePaymentSaleCompleted = "payment.sale.completed" // 事件类型：付款完成
-	EventTypePaymentSalePending   = "payment.sale.pending"   // 事件类型：付款中
-	EventTypePaymentSaleDenied    = "payment.sale.denied"    // 事件类型：拒绝付款
+	EventTypePaymentSaleCompleted = "PAYMENT.SALE.COMPLETED" // 事件类型：付款完成
+	EventTypePaymentSalePending   = "PAYMENT.SALE.PENDING"   // 事件类型：付款中
+	EventTypePaymentSaleDenied    = "PAYMENT.SALE.DENIED"    // 事件类型：拒绝付款
 )
 
 var (

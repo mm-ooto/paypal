@@ -172,7 +172,7 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 	return nil
 }
 
-func setHeaderParameters(req *http.Request, otherHeaderParams model.OtherDefaultHeaderParameters) {
+func setHeaderParameters(req *http.Request, otherHeaderParams *model.OtherDefaultHeaderParameters) {
 	if otherHeaderParams.PayPalRequestId != "" {
 		req.Header.Set("PayPal-Request-Id", otherHeaderParams.PayPalRequestId)
 	}
