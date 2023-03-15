@@ -80,4 +80,9 @@ var (
 	WebhooksAPI                         = "/v1/notifications/webhooks"
 	ListEventSubscriptionsForWebhookAPI = "/v1/notifications/webhooks/%s/event-types"
 	VerifyWebhookSignatureAPI           = "/v1/notifications/verify-webhook-signature"
+	ShowEventNotificationDetailAPI      = "/v1/notifications/webhooks-events/%s"
+	ResendWebhookEventNotificationAPI   = "/v1/notifications/webhooks-events/%s/resend"
+
+	DisputesListAPI   = "/v1/customer/disputes"
+	DisputesDetailAPI = "/v1/customer/disputes/%s"
 )

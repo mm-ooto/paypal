@@ -10,9 +10,9 @@ import (
 )
 
 /*
-*	网络钩子
+*	网络钩子：使用Webhooks进行事件通知
 *    https://developer.paypal.com/docs/api/webhooks/v1/#webhooks
-*/
+ */
 
 // GetListWebhooks 列出应用程序的webhooks
 func (p *PClient) GetListWebhooks(req *model.ReqGetListWebhooks) (res model.ResGetListWebhooks, err error) {
@@ -67,6 +67,24 @@ func (p *PClient) GetListEventSubscriptionsForWebhook(req *model.ReqGetListEvent
 	return
 }
 
+// ShowEventNotificationDetail 事件通知详情
+func (p *PClient) ShowEventNotificationDetail(req *model.ReqShowEventNotificationDetail) (res model.Event, err error) {
+	api := fmt.Sprintf(consts.ShowEventNotificationDetailAPI, req.EventId)
+	if err = p.CallApiRequest(consts.HttpMethodGet, api, req, &res); err != nil {
+		return
+	}
+	return
+}
+
+// ResendWebhookEventNotification 重发事件通知
+func (p *PClient) ResendWebhookEventNotification(req *model.ReqResendWebhookEventNotification) (res model.ResResendWebhookEventNotification, err error) {
+	api := fmt.Sprintf(consts.ResendWebhookEventNotificationAPI, req.EventId)
+	if err = p.CallApiRequest(consts.HttpMethodPost, api, req, &res); err != nil {
+		return
+	}
+	return
+}
+
 // VerifyWebhookSignature 验证webhook签名
 func (p *PClient) VerifyWebhookSignature(req *model.ReqVerifyWebhookSignature) (res model.ResVerifyWebhookSignature, err error) {
 	if err = p.CallApiRequest(consts.HttpMethodPost, consts.VerifyWebhookSignatureAPI, req, &res); err != nil {
@@ -75,13 +93,12 @@ func (p *PClient) VerifyWebhookSignature(req *model.ReqVerifyWebhookSignature) (
 	return
 }
 
-// HandlerWebhookAsyncNotify 处理异步通知
-func (p *PClient) HandlerWebhookAsyncNotify(webhookId string, req *http.Request) (err error) {
+// HandleWebhookAsyncNotify 处理异步通知，处理成功后需要返回StatusCode=http.StatusOK
+func (p *PClient) HandleWebhookAsyncNotify(webhookId string, req *http.Request) (webhookEvent *model.Event, err error) {
 
-	var webhookEvent model.Event
 	requestBody, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if err = json.Unmarshal(requestBody, &webhookEvent); err != nil {
 		return
@@ -95,7 +112,7 @@ func (p *PClient) HandlerWebhookAsyncNotify(webhookId string, req *http.Request)
 		TransmissionSig:  req.Header.Get("transmission_sig"),
 		TransmissionTime: req.Header.Get("transmission_time"),
 		WebhookId:        webhookId,
-		WebhookEvent:     &webhookEvent,
+		WebhookEvent:     webhookEvent,
 	}
 	verifyRes, err := p.VerifyWebhookSignature(verifyReq)
 	if err != nil {
@@ -105,7 +122,8 @@ func (p *PClient) HandlerWebhookAsyncNotify(webhookId string, req *http.Request)
 		err = signatureVerifyFailureErr
 		return
 	}
-	// 验证成功后数据处理
+
+	// 签名验证成功后，根据不同的资源类型对数据进行处理
 	switch webhookEvent.ResourceType {
 	case consts.ResourceTypeDispute: // 纠纷
 	// TODO

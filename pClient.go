@@ -15,12 +15,12 @@ import (
 type PClient struct {
 	gateWayUrl string // 网关地址
 	//version              string // 版本号：v1/v2
-	clientId             string //
-	clientSecret         string //
+	clientId             string // 应用编号
+	clientSecret         string // 应用密钥
 	isProduction         bool   // 是否是生产环境
 	client               *http.Client
 	accessToken          string    // 访问令牌
-	accessTokenExpiresAt time.Time // 访问令牌过期时间
+	accessTokenExpiresAt time.Time // 访问令牌过期时间，单位秒
 }
 
 type OptionFunc func(p *PClient)
@@ -93,6 +93,7 @@ func (p *PClient) GetAccessToken() error {
 	return nil
 }
 
+// CallApiRequest 调用API请求
 func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, apiResp interface{}) error {
 	if p.accessToken == "" || p.accessTokenExpiresAt.Before(time.Now()) {
 		// 过期重新获取访问令牌
@@ -114,14 +115,13 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 
 	req.Header.Set("Accept-Language", "en_US")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", p.accessToken))
-	if req.Header.Get("Content-Type") == "" {
-		req.Header.Set("Content-Type", consts.ContentTypeJson)
-	}
+	req.Header.Set("Content-Type", consts.ContentTypeJson)
 
 	res, err := p.client.Do(req)
 	if err != nil {
 		return err
 	}
+	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {

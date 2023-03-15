@@ -306,10 +306,10 @@ func (r *ReqGetListWebhooks) GetQueryParameters() string {
 // ReqCreateWebhook
 // https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_post
 type ReqCreateWebhook struct {
-	Id        string             `json:"id,omitempty"`
-	Url       string             `json:"url"`
+	Id         string             `json:"id,omitempty"`
+	Url        string             `json:"url"`
 	EventTypes []*EventType       `json:"event_types"`
-	Links     []*LinkDescription `json:"links,omitempty"`
+	Links      []*LinkDescription `json:"links,omitempty"`
 }
 
 // ReqDeleteWebhook
@@ -337,14 +337,44 @@ type ReqGetListEventSubscriptionsForWebhook struct {
 	WebhookId string `json:"-"`
 }
 
+// ReqResendWebhookEventNotification 重发事件通知
+// https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-events_resend
+type ReqResendWebhookEventNotification struct {
+	EventId string `json:"event_id"` // 事件id
+}
+
+// ReqShowEventNotificationDetail 事件通知详情
+// https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-events_get
+type ReqShowEventNotificationDetail struct {
+	EventId string `json:"event_id"` // 事件id
+}
+
 // ReqVerifyWebhookSignature
 // https://developer.paypal.com/docs/api/webhooks/v1/#verify-webhook-signature_post
 type ReqVerifyWebhookSignature struct {
-	AuthAlgo         string `json:"auth_algo"`
-	CertUrl          string `json:"cert_url"`
-	TransmissionId   string `json:"transmission_id"`
-	TransmissionSig  string `json:"transmission_sig"`
-	TransmissionTime string `json:"transmission_time"`
-	WebhookId        string `json:"webhook_id"`
-	WebhookEvent     *Event `json:"webhook_event"`
+	AuthAlgo         string `json:"auth_algo"`         // PayPal用来生成签名的算法，以及你可以用来验证签名的算法。从PAYPAL-AUTH-ALGO响应头中提取该值，该响应头与webhook通知一起接收。
+	CertUrl          string `json:"cert_url"`          // X.509公钥证书。从这个URL下载证书并使用它来验证签名。从PAYPAL-CERT-URL响应头中提取这个值，它与webhook通知一起接收。
+	TransmissionId   string `json:"transmission_id"`   // HTTP传输ID。包含在通知消息的PAYPAL-TRANSMISSION-ID报头中。
+	TransmissionSig  string `json:"transmission_sig"`  // paypal生成的非对称签名。出现在通知消息的PAYPAL-TRANSMISSION-SIG报头中。
+	TransmissionTime string `json:"transmission_time"` // HTTP传输的日期和时间，以Internet日期和时间格式。出现在通知消息的PAYPAL-TRANSMISSION-TIME报头中。
+	WebhookId        string `json:"webhook_id"`        // 在开发者门户帐户中配置的webhook的ID。
+	WebhookEvent     *Event `json:"webhook_event"`     // 一个webhook事件通知。
+}
+
+// ReqDisputesList 争议列表
+// https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_list
+type ReqDisputesList struct {
+	DisputeState          string `json:"dispute_state,omitempty"`           // 过滤状态响应中的争议。多个值之间用“，”分隔。当指定多个争议状态时，响应将列出属于任何指定的争议状态的争议
+	DisputedTransactionId string `json:"disputed_transaction_id,omitempty"` // 根据事务(ID)过滤响应中的争议，可以指定start_time和argumted_transaction_id查询参数之一，但不能同时指定。
+	NextPageToken         string `json:"next_page_token,omitempty"`         // 描述要获取的下一页结果的标记。列表争议调用在响应中的HATEOAS链接中返回此令牌。
+	PageSize              int    `json:"page_size,omitempty"`               // 限制对此值的响应中的争议数量。
+	StartTime             string `json:"start_time,omitempty"`              // 根据创建日期和时间过滤响应中的争议。开始时间必须在最近180天内。值为Internet日期和时间格式。例如:yyyy-MM-ddTHH:mm:ss.SSSZ。 可以指定start_time和argumted_transaction_id查询参数之一，但不能同时指定。
+	UpdateTimeAfter       string `json:"update_time_after,omitempty"`       // 争议最后一次更新的日期和时间，以互联网日期和时间格式。例如:yyyy-MM-ddTHH:mm:ss.SSSZ。Update_time_after必须在最近180天内，默认是支持的最大时间(180天)。
+	UpdateTimeBefore      string `json:"update_time_before,omitempty"`      // 争议最后一次更新的日期和时间，以互联网日期和时间格式。例如:yyyy-MM-ddTHH:mm:ss.SSSZ。Update_time_before必须在最近180天内，默认为当前时间。
+}
+
+// ReqDisputesDetail 争议详情
+// https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_get
+type ReqDisputesDetail struct {
+	Id string `json:"id"` // 要显示其详细信息的争议的ID。
 }

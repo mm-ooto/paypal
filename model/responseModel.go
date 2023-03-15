@@ -250,8 +250,122 @@ type ResGetListEventSubscriptionsForWebhook struct {
 	EventTypes []*EventType `json:"event_types"`
 }
 
+// ResResendWebhookEventNotification 重发事件通知
+type ResResendWebhookEventNotification struct {
+	WebhookIds []struct {
+		WebhookId string `json:"webhook_id"` // 要重发的webhook事件通知的ID
+	} `json:"webhook_ids"`
+}
+
 // ResVerifyWebhookSignature
 // https://developer.paypal.com/docs/api/webhooks/v1/#verify-webhook-signature-post-response
 type ResVerifyWebhookSignature struct {
 	VerificationStatus string `json:"verification_status"` // 签名验证的状态：SUCCESS,FAILURE
+}
+
+// ResDisputesList 争议列表
+// https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-list-response
+type ResDisputesList struct {
+	Items []DisputesInfo    `json:"items"` // 匹配筛选条件的争议数组。按照从最近到最早的创建时间顺序排序。
+	Links []LinkDescription `json:"links"`
+}
+
+// DisputesInfo 包含争议信息对象
+type DisputesInfo struct {
+	DisputeId     string            `json:"dispute_id"`     //
+	CreateTime    string            `json:"create_time"`    // 争议产生的日期和时间，以互联网日期和时间格式。例如:yyyy-MM-ddTHH:mm:ss.SSSZ。
+	UpdateTime    string            `json:"update_time"`    //
+	Status        string            `json:"status"`         //
+	Reason        string            `json:"reason"`         //
+	DisputeState  string            `json:"dispute_state"`  //
+	DisputeAmount Money             `json:"dispute_amount"` // 交易中客户最初争议的金额。由于客户有时只能对部分付款提出异议，因此有争议的金额可能与原始交易的总毛额或净额不同。
+	Links         []LinkDescription `json:"links"`
+}
+
+// ResDisputesDetail 争议详情
+// https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-get-response
+type ResDisputesDetail struct {
+	DisputeId            string                    `json:"dispute_id"`  //
+	CreateTime           string                    `json:"create_time"` // 争议产生的日期和时间，以互联网日期和时间格式。例如:yyyy-MM-ddTHH:mm:ss.SSSZ。
+	UpdateTime           string                    `json:"update_time"` //
+	DisputedTransactions []DisputesTransactionInfo `json:"disputed_transactions"`
+	Reason               string                    `json:"reason"`         //
+	Status               string                    `json:"status"`         //
+	DisputeAmount        Money                     `json:"dispute_amount"` //
+	DisputeOutcome       struct {
+		OutcomeCode    string `json:"outcome_code"`
+		AmountRefunded Money  `json:"amount_refunded"` //
+	} `json:"dispute_outcome"`
+	DisputeLifeCycleStage string `json:"dispute_life_cycle_stage"`
+	DisputeChannel        string `json:"dispute_channel"`
+	Messages              []struct {
+		PostedBy   string `json:"posted_by"`
+		TimePosted string `json:"time_posted"`
+		Content    string `json:"content"`
+		Documents  []struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"documents"`
+	} `json:"messages"`
+	Extensions struct {
+		MerchandizeDisputeProperties struct {
+			IssueType      string `json:"issue_type"`
+			ServiceDetails []struct {
+				SubReasons  []string `json:"sub_reasons"`
+				PurchaseUrl string   `json:"purchase_url"`
+			} `json:"service_details"`
+		} `json:"merchandize_dispute_properties"`
+	} `json:"extensions"`
+	Offer struct {
+		BuyerRequestedAmount Money  `json:"buyer_requested_amount"`
+		OfferType            string `json:"offer_type"`
+		History              struct {
+			OfferTime             string `json:"offer_time"`
+			Actor                 string `json:"actor"`
+			EventType             string `json:"event_type"`
+			OfferType             string `json:"offer_type"`
+			OfferAmount           Money  `json:"offer_amount"`
+			Notes                 string `json:"notes"`
+			DisputeLifeCycleStage string `json:"dispute_life_cycle_stage"`
+		} `json:"history"`
+	} `json:"offer"`
+	Links []LinkDescription `json:"links"`
+}
+
+// DisputesTransactionInfo 争议交易详情
+type DisputesTransactionInfo struct {
+	Buyer struct {
+		Name string `json:"name"`
+	}
+	BuyerTransactionId string `json:"buyer_transaction_id"` // 客户看到的此事务的ID。
+	CreateTime         string `json:"create_time"`          // 创建时间
+	Custom             string `json:"custom"`               // 由商家在结帐时输入的自由文本字段。
+	GrossAmount        Money  `json:"gross_amount"`         // 交易总额。
+	GrossAsset         struct {
+		AssetSymbol string `json:"asset_symbol"` // 由流动性提供者(交易所)分配的加密货币股票代码。
+		Quantity    string `json:"quantity"`     // 加密货币资产数量。 这是一个十进制数字，由创始人为每个加密货币定义了刻度。例如, 比特币(BTC)的规模为8，以太坊(ETH)有18个规模。PayPal加密货币平台处理比特币及其分支和以太坊的8位数规模。
+	} `json:"gross_asset"` // 交易的总资产。
+	InvoiceNumber string `json:"invoice_number"` // 付款发票的ID。
+	Items         []struct {
+		DisputeAmount        Money  `json:"dispute_amount"`         // 争议事项金额
+		ItemDescription      string `json:"item_description"`       // 争议事项描述
+		ItemId               string `json:"item_id"`                // 争议事项ID
+		ItemName             string `json:"item_name"`              // 争议事项名字
+		ItemQuantity         string `json:"item_quantity"`          // 争议事项:争议事项的数量一定是个整数。
+		ItemType             string `json:"item_type"`              // 争议事项类型，可选值：PRODUCT，SERVICE，BOOKING，DIGITAL_DOWNLOAD
+		Notes                string `json:"notes"`                  // 该争议事项提供的任何备注。
+		PartnerTransactionId string `json:"partner_transaction_id"` // 合作伙伴系统中事务的ID。合作伙伴事务ID在项目级别返回，因为合作伙伴可能为购物车中的不同项目显示不同的事务。
+		Reason               string `json:"reason"`                 // 项目层面争议的原因。有关每个争议原因和相关证据类型所需信息的信息，请参见争议原因。可选值：MERCHANDISE_OR_SERVICE_NOT_RECEIVED，
+		// MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED，UNAUTHORISED，CREDIT_NOT_PROCESSED，DUPLICATE_TRANSACTION，INCORRECT_AMOUNT，PAYMENT_BY_OTHER_MEANS，
+		// CANCELED_RECURRING_BILLING，PROBLEM_WITH_REMITTANCE，OTHER
+
+	} `json:"items"`
+	ReferenceId string `json:"reference_id"` // 合作伙伴看到的此事务的ID。
+	Seller      struct {
+		Email      string `json:"email"`
+		MerchantId string `json:"merchant_id"`
+		Name       string `json:"name"`
+	} `json:"seller"`
+	SellerTransactionId string `json:"seller_transaction_id"` // 卖家交易id
+	TransactionStatus   string `json:"transaction_status"`    // 交易状态
 }

@@ -235,8 +235,8 @@ type PurchaseUnitsRequest struct {
 // AmountWithBreakdown
 // https://developer.paypal.com/docs/api/orders/v2/#definition-amount_with_breakdown
 type AmountWithBreakdown struct {
-	CurrencyCode string           `json:"currency_code"`
-	Value        string           `json:"value"`
+	CurrencyCode string           `json:"currency_code"` // 币种代码
+	Value        string           `json:"value"`         // 金额
 	Breakdown    *AmountBreakdown `json:"breakdown,omitempty"`
 }
 

@@ -78,6 +78,10 @@ func TestCreateOrder(t *testing.T) {
 * 获取交易列表（List transactions：`GET /v1/reporting/transactions`）：`pClient.GetTransactionsList()`
 * 获取所有余额（List all balances：`GET /v1/reporting/balances`）：`pClient.GetListAllBalances()`
 
+#### 争议、纠纷
+* 争议列表（List disputes：`GET /v1/customer/disputes`）：`pClient.DisputesList()`
+* 争议详情（Show dispute details：`GET /v1/customer/disputes/{id}`）：`pClient.DisputesDetail()`
+
 #### 网络钩子Webhooks
 * 获取所有的钩子（List webhooks：`GET /v1/notifications/webhooks`）：`pClient.GetListWebhooks()`
 * 创建钩子（Create webhook：`POST /v1/notifications/webhooks`）：`pClient.CreateWebhook()`
@@ -85,6 +89,8 @@ func TestCreateOrder(t *testing.T) {
 * 更新钩子（Update webhook：`PATCH /v1/notifications/webhooks/{webhook_id}`）：`pClient.UpdateWebhook()`
 * 获取钩子详情（Show webhook details：`GET /v1/notifications/webhooks/{webhook_id}`）：`pClient.GetWebhookDetails()`
 * 获取钩子的所有订阅事件（List event subscriptions for webhook：`GET /v1/notifications/webhooks/{webhook_id}/event-types`）：`pClient.GetListEventSubscriptionsForWebhook()`
+* 事件通知详情（Show event notification details：`GET /v1/notifications/webhooks-events/{event_id}`）：`pClient.ShowEventNotificationDetail()`
+* 重发事件通知（Resend event notification：`POST /v1/notifications/webhooks-events/{event_id}/resend`）：`pClient.ResendWebhookEventNotification()`
 * 验证钩子签名（Verify webhook signature：`POST /v1/notifications/verify-webhook-signature`）： `pClient.VerifyWebhookSignature()`
 
 
