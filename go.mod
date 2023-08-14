@@ -1,3 +1,3 @@
-module github/mm-ooto/paypal
+module paypal
 
-go 1.17
+go 1.20

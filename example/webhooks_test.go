@@ -12,7 +12,7 @@ func TestGetListWebhooks(t *testing.T) {
 			AnchorType: "APPLICATION",
 		},
 	}
-	res, err := pClient.GetListWebhooks(req)
+	res, err := client.GetListWebhooks(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -33,7 +33,7 @@ func TestCreateWebhook(t *testing.T) {
 			},
 		},
 	}
-	res, err := pClient.CreateWebhook(req)
+	res, err := client.CreateWebhook(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -46,7 +46,7 @@ func TestDeleteWebhook(t *testing.T) {
 	req := &model.ReqDeleteWebhook{
 		WebhookId: "09Y1313102281883H",
 	}
-	err := pClient.DeleteWebhook(req)
+	err := client.DeleteWebhook(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -74,7 +74,7 @@ func TestUpdateWebhook(t *testing.T) {
 			},
 		},
 	}
-	res, err := pClient.UpdateWebhook(req)
+	res, err := client.UpdateWebhook(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -87,7 +87,7 @@ func TestGetWebhookDetails(t *testing.T) {
 	req := &model.ReqGetWebhookDetails{
 		WebhookId: "9FM75813N28895501",
 	}
-	res, err := pClient.GetWebhookDetails(req)
+	res, err := client.GetWebhookDetails(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -100,7 +100,7 @@ func TestGetListEventSubscriptionsForWebhook(t *testing.T) {
 	req := &model.ReqGetListEventSubscriptionsForWebhook{
 		WebhookId: "9FM75813N28895501",
 	}
-	res, err := pClient.GetListEventSubscriptionsForWebhook(req)
+	res, err := client.GetListEventSubscriptionsForWebhook(req)
 	if err != nil {
 		t.Log(err)
 		return

@@ -1,4 +1,4 @@
-package consts
+package paypal
 
 var (
 	SandboxGateWayUrl    = "https://api.sandbox.paypal.com" // 沙箱网关地址

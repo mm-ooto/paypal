@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github/mm-ooto/paypal"
 	"net/http"
 )
 
-var client *paypal.PClient
+var client *paypal.Client
 
 func init() {
 	clientId := "AcSU4Cbl7gbGZqI1xTNiJwkkpEzLpb0QntUmotlM239mz_8N5CYJlGfbByidGWXuoo6lDI06hgGfpyy5"
@@ -15,11 +16,13 @@ func init() {
 func main() {
 	http.HandleFunc("/notify", func(writer http.ResponseWriter, request *http.Request) {
 		// 通知处理
-		if err := client.HandleWebhookAsyncNotify("9FM75813N28895501", request); err != nil {
+		eventType, err := client.HandleWebhookAsyncNotify("9FM75813N28895501", request)
+		if err != nil {
 			writer.Write([]byte(err.Error()))
 			return
 		}
 		writer.WriteHeader(http.StatusOK)
+		fmt.Println("eventType=", eventType)
 	})
 	http.ListenAndServe(":8099", nil)
 }

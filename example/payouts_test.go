@@ -20,13 +20,13 @@ func TestCreateBatchPayout(t *testing.T) {
 					Currency: "USD",
 					Value:    "9.87",
 				},
-				Note:            "Thanks for your patronage!",
-				Receiver:        "receiver@example.com",
-				SenderItemId:    "201403140001",
+				Note:         "Thanks for your patronage!",
+				Receiver:     "receiver@example.com",
+				SenderItemId: "201403140001",
 				AlternateNotificationMethod: &model.AlternateNotificationMethod{
 					Phone: &model.Phone{
-						CountryCode:     "91",
-						NationalNumber:  "9999988888",
+						CountryCode:    "91",
+						NationalNumber: "9999988888",
 					}},
 				NotificationLanguage: "fr-FR",
 				ApplicationContext: &model.ApplicationContext{
@@ -37,7 +37,7 @@ func TestCreateBatchPayout(t *testing.T) {
 			},
 		},
 	}
-	res, err := pClient.CreateBatchPayout(req)
+	res, err := client.CreateBatchPayout(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -56,7 +56,7 @@ func TestGetPayoutBatchDetails(t *testing.T) {
 			TotalRequired: true,
 		},
 	}
-	res, err := pClient.GetPayoutBatchDetails(req)
+	res, err := client.GetPayoutBatchDetails(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -69,7 +69,7 @@ func TestGetPayoutItemDetails(t *testing.T) {
 	req := &model.ReqGetPayoutItemDetails{
 		PayoutItemId: "8AELMXH8UB2P8",
 	}
-	res, err := pClient.GetPayoutItemDetails(req)
+	res, err := client.GetPayoutItemDetails(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -82,7 +82,7 @@ func TestCancelUnclaimedPayoutItem(t *testing.T) {
 	req := &model.ReqCancelUnclaimedPayoutItem{
 		PayoutItemId: "8AELMXH8UB2P8",
 	}
-	res, err := pClient.CancelUnclaimedPayoutItem(req)
+	res, err := client.CancelUnclaimedPayoutItem(req)
 	if err != nil {
 		t.Log(err)
 		return

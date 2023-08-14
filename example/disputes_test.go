@@ -16,7 +16,7 @@ func TestDisputesList(t *testing.T) {
 		UpdateTimeAfter:       "",
 		UpdateTimeBefore:      "",
 	}
-	res, err := pClient.DisputesList(req)
+	res, err := client.DisputesList(req)
 	if err != nil {
 		t.Log(err.Error())
 		return
@@ -27,7 +27,7 @@ func TestDisputesList(t *testing.T) {
 
 func TestDisputesDetail(t *testing.T) {
 	req := &model.ReqDisputesDetail{Id: ""}
-	res, err := pClient.DisputesDetail(req)
+	res, err := client.DisputesDetail(req)
 	if err != nil {
 		t.Log(err.Error())
 		return

@@ -24,7 +24,7 @@ func TestGetTransactionsList(t *testing.T) {
 			PageSize:                    2,
 		},
 	}
-	res, err := pClient.GetTransactionsList(req)
+	res, err := client.GetTransactionsList(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -39,7 +39,7 @@ func TestGetListAllBalances(t *testing.T) {
 			AsOfTime:     "ALL",
 			CurrencyCode: "",
 		}}
-	res, err := pClient.GetListAllBalances(req)
+	res, err := client.GetListAllBalances(req)
 	if err != nil {
 		t.Log(err)
 		return

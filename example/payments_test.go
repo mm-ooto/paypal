@@ -10,7 +10,7 @@ func TestGetAuthorizedPaymentDetails(t *testing.T) {
 	req := &model.ReqGetAuthorizedPaymentDetails{
 		AuthorizationId: "16462243JA7662122",
 	}
-	res, err := pClient.GetAuthorizedPaymentDetails(req)
+	res, err := client.GetAuthorizedPaymentDetails(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -23,7 +23,7 @@ func TestCaptureAuthorizedPayment(t *testing.T) {
 	req := &model.ReqCaptureAuthorizedPayment{
 		AuthorizationId: "16462243JA7662122",
 	}
-	res, err := pClient.CaptureAuthorizedPayment(req)
+	res, err := client.CaptureAuthorizedPayment(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -36,7 +36,7 @@ func TestReauthorizeAuthorizedPayment(t *testing.T) {
 	req := &model.ReqReauthorizeAuthorizedPayment{
 		AuthorizationId: "16462243JA7662122",
 	}
-	res, err := pClient.ReauthorizeAuthorizedPayment(req)
+	res, err := client.ReauthorizeAuthorizedPayment(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -49,7 +49,7 @@ func TestGetCapturedPaymentDetails(t *testing.T) {
 	req := &model.ReqGetCapturedPaymentDetails{
 		CaptureId: "16462243JA7662122",
 	}
-	res, err := pClient.GetCapturedPaymentDetails(req)
+	res, err := client.GetCapturedPaymentDetails(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -65,7 +65,7 @@ func TestRefundCapturedPayment(t *testing.T) {
 		InvoiceId:   "",
 		NoteToPayer: "",
 	}
-	res, err := pClient.RefundCapturedPayment(req)
+	res, err := client.RefundCapturedPayment(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -78,7 +78,7 @@ func TestGetRefundDetails(t *testing.T) {
 	req := &model.ReqGetRefundDetails{
 		RefundId: "",
 	}
-	res, err := pClient.GetRefundDetails(req)
+	res, err := client.GetRefundDetails(req)
 	if err != nil {
 		t.Log(err)
 		return

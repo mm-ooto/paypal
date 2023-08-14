@@ -3,33 +3,32 @@ package main
 import (
 	"encoding/json"
 	"github/mm-ooto/paypal"
-	"github/mm-ooto/paypal/consts"
 	"github/mm-ooto/paypal/model"
 	"testing"
 )
 
-var pClient *paypal.PClient
+var client2 *paypal.Client
 
 func TestMain(m *testing.M) {
 	clientId := "AcSU4Cbl7gbGZqI1xTNiJwkkpEzLpb0QntUmotlM239mz_8N5CYJlGfbByidGWXuoo6lDI06hgGfpyy5"
 	clientSecret := "EBOvatSnBAMBls3YdsFKzvuXljxFxb3sX9ZNXZNkhJpdyLS_IKIbVV3Xkh04JAmDE2meJfeMO4ZMnRPS"
-	pClient = paypal.NewPClient(clientId, clientSecret, false)
+	client2 = paypal.NewPClient(clientId, clientSecret, false)
 	m.Run()
 }
 
 func TestGetAccessToken(t *testing.T) {
-	err := pClient.GetAccessToken()
+	err := client2.GetAccessToken()
 	if err != nil {
 		t.Log(err)
 		return
 	}
-	bytes, _ := json.Marshal(pClient)
+	bytes, _ := json.Marshal(client2)
 	t.Log(string(bytes))
 }
 
 func TestCreateOrder(t *testing.T) {
 	req := &model.ReqCreateOrder{
-		Intent: consts.IntentCapture,
+		Intent: paypal.IntentCapture,
 		PurchaseUnits: []*model.PurchaseUnitsRequest{
 			{
 				Amount: &model.AmountWithBreakdown{
@@ -39,7 +38,7 @@ func TestCreateOrder(t *testing.T) {
 			},
 		},
 	}
-	res, err := pClient.CreateOrder(req)
+	res, err := client2.CreateOrder(req)
 	if err != nil {
 		t.Log(err.Error())
 		return
@@ -52,7 +51,7 @@ func TestShowOrderDetails(t *testing.T) {
 	req := &model.ReqShowOrderDetails{
 		Id: "16462243JA7662122",
 	}
-	res, err := pClient.ShowOrderDetails(req)
+	res, err := client2.ShowOrderDetails(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -65,7 +64,7 @@ func TestOrderAuthorize(t *testing.T) {
 	req := &model.ReqOrderAuthorize{
 		Id: "16462243JA7662122",
 	}
-	res, err := pClient.OrderAuthorize(req)
+	res, err := client2.OrderAuthorize(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -78,7 +77,7 @@ func TestOrdersCapture(t *testing.T) {
 	req := &model.ReqOrdersCapture{
 		Id: "16462243JA7662122",
 	}
-	res, err := pClient.OrdersCapture(req)
+	res, err := client2.OrdersCapture(req)
 	if err != nil {
 		t.Log(err)
 		return
@@ -103,7 +102,7 @@ func TestConfirmOrder(t *testing.T) {
 			Trustly:    nil,
 		},
 	}
-	res, err := pClient.ConfirmOrder(req)
+	res, err := client2.ConfirmOrder(req)
 	if err != nil {
 		t.Log(err)
 		return

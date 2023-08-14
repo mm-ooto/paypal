@@ -3,8 +3,8 @@ package paypal
 import (
 	"encoding/json"
 	"fmt"
-	"github/mm-ooto/paypal/consts"
 	"github/mm-ooto/paypal/model"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-type PClient struct {
+type Client struct {
 	gateWayUrl string // 网关地址
 	//version              string // 版本号：v1/v2
 	clientId             string // 应用编号
@@ -23,58 +23,58 @@ type PClient struct {
 	accessTokenExpiresAt time.Time // 访问令牌过期时间，单位秒
 }
 
-type OptionFunc func(p *PClient)
+type OptionFunc func(p *Client)
 
 func AddClient(client *http.Client) OptionFunc {
-	return func(p *PClient) {
+	return func(p *Client) {
 		p.client = client
 	}
 }
 
-var pClientV *PClient
+var pClientV *Client
 
-func NewPClient(clientId, clientSecret string, isProduction bool, opts ...OptionFunc) (pClient *PClient) {
-	pClient = &PClient{
-		gateWayUrl:   consts.SandboxGateWayUrl,
+func NewPClient(clientId, clientSecret string, isProduction bool, opts ...OptionFunc) (client *Client) {
+	client = &Client{
+		gateWayUrl:   SandboxGateWayUrl,
 		clientId:     clientId,
 		clientSecret: clientSecret,
 		isProduction: isProduction,
 		client:       http.DefaultClient,
 	}
 	if isProduction {
-		pClient.gateWayUrl = consts.ProductionGateWayUrl
+		client.gateWayUrl = ProductionGateWayUrl
 	}
 	for _, opt := range opts {
-		opt(pClient)
+		opt(client)
 	}
 	// 访问令牌
-	err := pClient.GetAccessToken()
+	err := client.GetAccessToken()
 	if err != nil {
 		panic(err)
 	}
-	pClientV = pClient
+	pClientV = client
 	return
 }
 
-func GetPClient() *PClient {
+func GetPClient() *Client {
 	return pClientV
 }
 
 // GenerateApiUrl 生成api url
-func (p *PClient) GenerateApiUrl(api string) string {
+func (p *Client) GenerateApiUrl(api string) string {
 	return fmt.Sprintf("%s%s", p.gateWayUrl, api)
 }
 
 // GetAccessToken 获取访问令牌
-func (p *PClient) GetAccessToken() error {
+func (p *Client) GetAccessToken() error {
 	value := url.Values{}
 	value.Add("grant_type", "client_credentials")
-	req, err := http.NewRequest(consts.HttpMethodPost, p.GenerateApiUrl(consts.AccessTokenAPI), strings.NewReader(value.Encode()))
+	req, err := http.NewRequest(HttpMethodPost, p.GenerateApiUrl(AccessTokenAPI), strings.NewReader(value.Encode()))
 	if err != nil {
 		return err
 	}
 	req.SetBasicAuth(p.clientId, p.clientSecret)
-	req.Header.Set("Content-Type", consts.ContentTypeFormUrlencoded)
+	req.Header.Set("Content-Type", ContentTypeFormUrlencoded)
 	res, err := p.client.Do(req)
 	if err != nil {
 		return err
@@ -94,12 +94,12 @@ func (p *PClient) GetAccessToken() error {
 }
 
 // CallApiRequest 调用API请求
-func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, apiResp interface{}) error {
+func (p *Client) CallApiRequest(httpMethod, api string, apiReq interface{}, apiResp interface{}) error {
 	if p.accessToken == "" || p.accessTokenExpiresAt.Before(time.Now()) {
 		// 过期重新获取访问令牌
 		err := p.GetAccessToken()
 		if err != nil {
-			panic(err)
+			return err
 		}
 	}
 
@@ -115,7 +115,7 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 
 	req.Header.Set("Accept-Language", "en_US")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", p.accessToken))
-	req.Header.Set("Content-Type", consts.ContentTypeJson)
+	req.Header.Set("Content-Type", ContentTypeJson)
 
 	res, err := p.client.Do(req)
 	if err != nil {
@@ -123,7 +123,7 @@ func (p *PClient) CallApiRequest(httpMethod, api string, apiReq interface{}, api
 	}
 	defer res.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return err
 	}
