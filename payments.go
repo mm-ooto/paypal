@@ -6,7 +6,7 @@ package paypal
  */
 import (
 	"fmt"
-	"github/mm-ooto/paypal/model"
+	"paypal/model"
 )
 
 // GetAuthorizedPaymentDetails 获取付款授权详情

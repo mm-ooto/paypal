@@ -3,9 +3,9 @@ package paypal
 import (
 	"encoding/json"
 	"fmt"
-	"github/mm-ooto/paypal/model"
 	"io"
 	"net/http"
+	"paypal/model"
 )
 
 /*

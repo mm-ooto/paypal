@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"github/mm-ooto/paypal"
-	"github/mm-ooto/paypal/model"
+	"paypal"
+	"paypal/model"
 	"testing"
 )
 

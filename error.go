@@ -3,7 +3,7 @@ package paypal
 import (
 	"errors"
 	"fmt"
-	"github/mm-ooto/paypal/model"
+	"paypal/model"
 )
 
 var (

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github/mm-ooto/paypal"
 	"net/http"
+	"paypal"
 )
 
 var client *paypal.Client

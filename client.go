@@ -3,11 +3,11 @@ package paypal
 import (
 	"encoding/json"
 	"fmt"
-	"github/mm-ooto/paypal/model"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"paypal/model"
 	"strings"
 	"time"
 )

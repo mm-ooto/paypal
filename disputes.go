@@ -2,7 +2,7 @@ package paypal
 
 import (
 	"fmt"
-	"github/mm-ooto/paypal/model"
+	"paypal/model"
 )
 
 /*
